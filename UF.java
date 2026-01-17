@@ -15,26 +15,24 @@ public class UF {
         return count;
     }
 
-    public boolean connected (int p, int q) {
+    private boolean connected (int p, int q) {
         return find(p) == find(q);
     }
 
-    public int find (int p) {
-        return id[p];
+    private int find (int p) {
+        // Find component name.
+        while (p != id[p]) p = id[p];
+        return p;
     }
 
     public void union (int p, int q) {
-        // Put p and q into the same component.
-        int pID = find(p);
-        int qID = find(q);
+        // Give p and q the same root.
+        int pRoot = find(p);
+        int qRoot = find(q);
+        if (pRoot == qRoot) return;
 
-        // Nothing to do if p and q are already in the same component.
-        if (pID == qID) return;
+        id[pRoot] = qRoot;
 
-        // Rename p's component to q's name.
-        for (int i = 0; i < id.length; i++) {
-            if (id[i] == pID) id[i] = qID;
-        }
         count--;
     }
 }
